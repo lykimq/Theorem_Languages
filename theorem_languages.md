@@ -134,3 +134,69 @@ fn longest<'a>(s1: &'a str, s2: &'a str) -> &'a str {
     }
 }
 ```
+
+### Marco
+Macros are a powerful feature that allows you to write code that generates other code at compile time. Rust macros come in two main types: declarative macros and procedural macros.
+
+**Declarative Macros**
+- It is a type of macro that uses `macro_rules!` to define the macro. They allow to match patterns and generate code based on the patterns. They are like functions that can be called with different arguments.
+
+```rust
+macro_rules! say_hello {
+    () =>{
+        println!("Hello, world!");
+    };
+}
+
+fn main() {
+    // Call the macro
+    say_hello!();
+}
+```
+
+**Procedural Macros**
+- They are more advanced and flexible than declarative macros, that take some code as input and produce code as output. Procedural macros require a separate crate to define.
+
+Types of procedural macros:
+- Custom derive macros: Create custome behavior for Rust' `#[derive]` attribute.
+- Attribute-like macros: They are like attributes but can take arguments and modify the item they are attached to.
+- Function-like macros: These look like function calls but works at the syntax level.
+
+Example of a function-like macro:
+```rust
+macro_rules! create_function {
+    ($func_name:ident) => {
+        fn $func_name() {
+            println!("Function {} called", stringify!($func_name));
+        }
+    }
+}
+
+create_function!(foo);
+
+foo(); // This will call the macro and print "Function foo called"
+```
+
+Example of an attribute-like macro:
+```rust
+// This is the attribute automatically implement the Debug trait for Person struct
+#[derive(Debug)]
+struct Person {
+    name: String,
+    age: u8,
+}
+```
+
+Example of a custom derive macro:
+```rust
+use my_macro::hello_macro;
+
+#[hello_macro]
+pub fn my_function() {
+    println!("Hello, world!");
+}
+```
+
+
+
+
